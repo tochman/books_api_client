@@ -5,7 +5,6 @@ const fetchData = async () => {
   return data
 }
 
-
 const displayBooks = () => {
   let displayElement = document.getElementById('display')
   displayElement.innerHTML = ''
@@ -32,6 +31,35 @@ const submitHandler = async () => {
     console.log(resp.json())
   })
 }
+
+let connection = new WebSocket('ws://localhost:8080') // open the connection
+connection.addEventListener('message', message => {
+  let alerts = document.getElementsByClassName('alert');
+  while (alerts[0]) {
+    alerts[0].parentNode.removeChild(alerts[0]); // remove any alerts already displayed 
+  }
+  let incomingMessage = {}
+  try {
+    incomingMessage = JSON.parse(message.data) // check if the incoming message can be parsed
+  } catch {
+    incomingMessage.message = message.data // otherwise use the string
+  }
+
+  let headerElement = document.getElementById('header') // get hold of the #header element
+  let incomingMessageDisplay = document.createElement('div') // create a new div that will be used to display the message
+  let htmlTemplate = `
+    <div class="alert">
+      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      ${incomingMessage.message}
+    </div>`
+  incomingMessageDisplay.innerHTML = htmlTemplate
+  headerElement.insertAdjacentElement('afterend', incomingMessageDisplay) // add the message to the UI below the #header element
+  if (incomingMessage.status === 'success') {
+    // here we are checking if the message was sent as part of the book creation flow. 
+    // if it is, we are fetching the books anew.
+    displayBooks()
+  }
+})
 
 document.addEventListener('DOMContentLoaded', () => {
   displayBooks()
