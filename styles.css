@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+}
+#header, #footer {
+  background:  brown;
+  height: 3em;
+  font-size: 20px;
+  padding: 10px;
+}
+
+#header h1 {
+  color: white;
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100vW;
+}
+
+#display, form {
+  padding: 20px;
+}
+
+input[type=text] {
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+input[type=submit], button {
+  background-color: brown;
+  color: white;
+  padding: 11px 40px;
+  font-size: 14px;
+}
