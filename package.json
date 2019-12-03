@@ -1,0 +1,12 @@
+{
+  "name": "books_api_client",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": "https://github.com/tochman/books_api_client.git",
+  "author": "Thomas <thomas@craftacademy.se>",
+  "license": "MIT",
+  "dependencies": {
+    "browser-sync": "^2.26.7",
+    "superstatic": "^6.0.4"
+  }
+}
