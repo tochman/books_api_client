@@ -1,7 +1,7 @@
 const apiUrl = 'http://localhost:3002/books';
 
 const fetchData = async () => {
-  return await (await fetch(apiUrl, {credentials: 'include'})).json()
+  return await (await fetch(apiUrl, {credentials: 'include'})).json();
 };
 
 const displayBooks = () => {
