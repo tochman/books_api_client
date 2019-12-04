@@ -36,13 +36,13 @@ let connection = new WebSocket('ws://localhost:8080'); // open the connection
 connection.addEventListener('message', message => {
   let alerts = document.getElementsByClassName('alert');
   while (alerts[0]) {
-    alerts[0].parentNode.removeChild(alerts[0]); // remove any alerts already displayed 
+    alerts[0].parentNode.removeChild(alerts[0]); // verwijder alle zichtbare meldingen
   }
   let incomingMessage = {};
   try {
-    incomingMessage = JSON.parse(message.data) // check if the incoming message can be parsed
+    incomingMessage = JSON.parse(message.data) // kijk of we het inkomende bericht kunnen parsen
   } catch {
-    incomingMessage.message = message.data // otherwise use the string
+    incomingMessage.message = message.data // anders gebruiken we de string
   }
 
   let headerElement = document.getElementById('header');
@@ -55,6 +55,8 @@ connection.addEventListener('message', message => {
   incomingMessageDisplay.innerHTML = htmlTemplate;
   headerElement.insertAdjacentElement('afterend', incomingMessageDisplay);
   if (incomingMessage.status === 'success') {
+    // here we are checking if the message was sent as part of the book creation flow.
+    // if it is, we are fetching the books anew.
     displayBooks()
   }
 });
