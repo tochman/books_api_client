@@ -1,25 +1,22 @@
-const apiUrl = 'http://localhost:3002/books'
+const apiUrl = 'http://localhost:3002/books';
 
 const fetchData = async () => {
-  let data = await (await fetch(apiUrl, { credentials: 'include' })).json()
-  return data
-}
+  return await (await fetch(apiUrl, {credentials: 'include'})).json()
+};
 
 const displayBooks = () => {
-  let displayElement = document.getElementById('display')
-  displayElement.innerHTML = ''
+  let displayElement = document.getElementById('display');
+  displayElement.innerHTML = '';
   fetchData().then((books) => {
     books.forEach(book => {
-      const showDisplayElement = document.createElement('div')
-      let html = `<p>${book.title} by ${book.author}</p>`
-
-      showDisplayElement.innerHTML = html
+      const showDisplayElement = document.createElement('div');
+      showDisplayElement.innerHTML = `<p>${book.title} by ${book.author}</p>`;
       displayElement.appendChild(showDisplayElement)
     })
   })
-}
+};
 const submitHandler = async () => {
-  event.preventDefault()
+  event.preventDefault();
   fetch('http://localhost:3002/books', {
     method: 'POST',
     headers: {
@@ -30,37 +27,36 @@ const submitHandler = async () => {
   }).then((resp) => {
     console.log(resp.json())
   })
-}
+};
 
-let connection = new WebSocket('ws://localhost:8080') // open the connection
+let connection = new WebSocket('ws://localhost:8080'); // open the connection
 connection.addEventListener('message', message => {
   let alerts = document.getElementsByClassName('alert');
   while (alerts[0]) {
-    alerts[0].parentNode.removeChild(alerts[0]); // remove any alerts already displayed 
+    alerts[0].parentNode.removeChild(alerts[0]); // remove any alerts already displayed
   }
-  let incomingMessage = {}
+  let incomingMessage = {};
   try {
     incomingMessage = JSON.parse(message.data) // check if the incoming message can be parsed
   } catch {
     incomingMessage.message = message.data // otherwise use the string
   }
 
-  let headerElement = document.getElementById('header') // get hold of the #header element
-  let incomingMessageDisplay = document.createElement('div') // create a new div that will be used to display the message
-  let htmlTemplate = `
+  let headerElement = document.getElementById('header'); // get hold of the #header element
+  let incomingMessageDisplay = document.createElement('div'); // create a new div that will be used to display the message
+  incomingMessageDisplay.innerHTML = `
     <div class="alert">
       <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
       ${incomingMessage.message}
-    </div>`
-  incomingMessageDisplay.innerHTML = htmlTemplate
-  headerElement.insertAdjacentElement('afterend', incomingMessageDisplay) // add the message to the UI below the #header element
+    </div>`;
+  headerElement.insertAdjacentElement('afterend', incomingMessageDisplay); // add the message to the UI below the #header element
   if (incomingMessage.status === 'success') {
-    // here we are checking if the message was sent as part of the book creation flow. 
+    // here we are checking if the message was sent as part of the book creation flow.
     // if it is, we are fetching the books anew.
     displayBooks()
   }
-})
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   displayBooks()
-})
+});
