@@ -11,7 +11,7 @@ const displayBooks = () => {
   fetchData().then((books) => {
     books.forEach(book => {
       const showDisplayElement = document.createElement('div')
-      let html = `<p>${book.title} by ${book.author}</p>`
+      let html = `<p>The book ${book.title}, is written by ${book.author}</p>`
 
       showDisplayElement.innerHTML = html
       displayElement.appendChild(showDisplayElement)
