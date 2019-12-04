@@ -9,3 +9,5 @@ browserSync.init({
   watch: true,
   files: ['*.html', '*.css', '*.js']
 });
+
+// a comment
