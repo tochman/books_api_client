@@ -3,3 +3,4 @@ These are the voyages of the Starship Enterprise
 Its five years mission
 To explore well known worlds
 To seek out new life
+And new civilizations
